@@ -12,10 +12,10 @@ if [[ ${1:-} == --runtime-only ]]; then
 else
     [[ $# == 0 ]] || { echo "Usage: $0 [--runtime-only /path/to/source-built-tool.tar.gz]" >&2; exit 2; }
     "$root_dir/tools/build-with-docker.sh"
-    version=$(node "$root_dir/tools/parse-config.js" --get-devtools-version)
     builder="wechat-devtools-build:electron-$(sha256sum "$root_dir/docker/Dockerfile.electron" | cut -c1-12)"
     docker run --rm -u "$(id -u):$(id -g)" -v "$root_dir:/workspace" -w /workspace \
-        "$builder" bash tools/build-tar.sh "$version" x86_64
+        "$builder" bash -ec 'version=$(node tools/parse-config.js --get-devtools-version); bash tools/build-tar.sh "$version" x86_64; printf "%s" "$version" > tmp/automator/version'
+    version=$(cat "$context/version")
     artifact="$root_dir/tmp/build/WeChat_Dev_Tools_${version}_x86_64_linux.tar.gz"
 fi
 cp "$artifact" "$context/tool.tar.gz"
