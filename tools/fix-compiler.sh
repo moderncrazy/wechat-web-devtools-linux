@@ -48,6 +48,7 @@ apply_prepend_patch "$package_dir/js/common/miniprogram-builder/modules/corecomp
 node "$root_dir/tools/fix-webview-touch-focus.js" "$package_dir"
 node "$root_dir/tools/fix-superseded-routes.js" "$package_dir"
 node "$root_dir/tools/fix-remote-debug-handshake.js" "$package_dir"
+node "$root_dir/tools/fix-filesystem-size-cache.js" "$package_dir"
 
 echo "replace: wcc,wcsc linux version"
 compiler_version=$(node "$root_dir/tools/parse-config.js" --get-compiler-version $@)
