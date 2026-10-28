@@ -7,9 +7,6 @@
 # 规格：../DEPLOY.md §4
 
 FROM ubuntu:20.04
-ARG SOURCE_REVISION=unknown
-LABEL org.opencontainers.image.source="https://github.com/moderncrazy/wechat-web-devtools-linux" \
-      org.opencontainers.image.revision="$SOURCE_REVISION"
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Electron 运行库全套 + X11/noVNC + 中文字体（§4.3 #6）
@@ -87,3 +84,7 @@ ENV PATH="/opt/wechat-devtools/bin:${PATH}"
 EXPOSE 9420 6080 5900
 WORKDIR /projects
 ENTRYPOINT ["/opt/tools/entrypoint.sh"]
+
+ARG SOURCE_REVISION=unknown
+LABEL org.opencontainers.image.source="https://github.com/moderncrazy/wechat-web-devtools-linux" \
+      org.opencontainers.image.revision="$SOURCE_REVISION"
