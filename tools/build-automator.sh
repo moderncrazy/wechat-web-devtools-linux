@@ -20,5 +20,6 @@ else
 fi
 cp "$artifact" "$context/tool.tar.gz"
 cp -a "$root_dir/docker/automator/." "$context/"
+cp "$root_dir/tools/fix-automator-bind.js" "$root_dir/res/scripts/automator-bind.js" "$context/"
 docker build --build-arg "SOURCE_REVISION=$revision" -t "$image" "$context"
 printf 'Source revision: %s\nImage: %s\n' "$revision" "$image"

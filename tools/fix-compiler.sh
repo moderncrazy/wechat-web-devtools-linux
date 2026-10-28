@@ -94,3 +94,4 @@ cd "${package_dir}/node_modules/wcc-electron/build/Release" && rm -rf wcc.node &
 cd "${package_dir}/node_modules/wcc-electron/build/Release" && rm -rf wcsc.node && mv wcsc-${arch}.node wcsc.node
 
 $root_dir/tools/asar-helper.sh pack
+node "$root_dir/tools/fix-automator-bind.js" "$root_dir/resources/app.asar"

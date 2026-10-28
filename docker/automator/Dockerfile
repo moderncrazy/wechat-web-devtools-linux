@@ -21,7 +21,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         fonts-wqy-zenhei fonts-wqy-microhei fontconfig \
     && locale-gen zh_CN.UTF-8 \
     && rm -rf /var/lib/apt/lists/*
-ENV LANG=zh_CN.UTF-8 LC_ALL=zh_CN.UTF-8
+ENV LANG=zh_CN.UTF-8 LC_ALL=zh_CN.UTF-8 WECHAT_DEVTOOLS_AUTOMATOR_HOST=0.0.0.0
 
 # Node 22：构建期跑 patch-asar.js + 运行期跑 smoke-test（miniprogram-automator）
 # 注：NodeSource 脚本直灌 root 属供应链审计中危项（docker/Dockerfile.electron 同款做法），
@@ -63,6 +63,8 @@ RUN CLI="/opt/wechat-devtools/resources/app.asar.unpacked/js/common/cli/index.js
 # 用系统 node（/usr/bin/node）：裸 `node` 若被工具 bin/node 包装脚本截获会段错误
 COPY patch-asar.js /opt/tools/patch-asar.js
 RUN /usr/bin/node /opt/tools/patch-asar.js /opt/wechat-devtools/resources/app.asar
+COPY fix-automator-bind.js automator-bind.js /opt/tools/
+RUN /usr/bin/node /opt/tools/fix-automator-bind.js /opt/wechat-devtools/resources/app.asar /opt/tools/automator-bind.js
 
 # ---- 入口编排 ----
 COPY entrypoint.sh /opt/tools/entrypoint.sh
