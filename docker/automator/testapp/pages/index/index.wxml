@@ -1,0 +1,5 @@
+<view class="container">
+  <text id="hello">hello automator</text>
+  <view id="tapped">{{tapped ? 'TAPPED' : 'not-tapped'}}</view>
+  <button id="btn" bindtap="onTap">tap me</button>
+</view>
