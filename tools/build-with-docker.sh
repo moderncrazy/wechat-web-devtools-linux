@@ -10,7 +10,13 @@ docker_home="$root_dir/cache/docker-home"
 mkdir -p "$docker_home"
 
 if ! docker image inspect "$image" >/dev/null 2>&1; then
-    docker build -f "$dockerfile" -t "$image" "$root_dir/docker"
+    target_arch=$(docker info --format '{{.Architecture}}')
+    case "$target_arch" in
+        x86_64|amd64) target_arch=amd64 ;;
+        aarch64|arm64) target_arch=arm64 ;;
+        *) echo "Unsupported Docker build architecture: $target_arch" >&2; exit 1 ;;
+    esac
+    docker build --build-arg "TARGETARCH=$target_arch" -f "$dockerfile" -t "$image" "$root_dir/docker"
 fi
 
 docker run --rm -i \
